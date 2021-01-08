@@ -1,11 +1,11 @@
 <template>
-  <div class="window border border-secondary rounded p-2 mb-2" :class="{expanded: isExpanded}">
+  <div class="room border border-secondary rounded p-2 mb-2" :class="{expanded: isExpanded}">
     <div class="top-row d-flex" @click="toggleExpand">
-      <div class="window-name fw-bold pe-3">{{window.name}}</div>
-      <div class="room-name text-muted">{{window.roomName}}</div>
+      <div class="room-name fw-bold pe-3">{{room.name}}</div>
+      <div class="room-name text-muted">{{room.roomName}}</div>
 
-      <div class="open-status ms-4" :class="{open: isWindowOpen, closed: !isWindowOpen}">
-        <template v-if="isWindowOpen">
+      <div class="open-status ms-4" :class="{open: isRoomOpen, closed: !isRoomOpen}">
+        <template v-if="isRoomOpen">
           <span class="icon">&#x2B24;</span> Open
         </template>
         <template v-else>
@@ -20,8 +20,8 @@
     <template v-if="isExpanded">
       <hr/>
       <div class="details d-flex">
-        <button type="button" class="btn btn-secondary me-2" @click="switchWindow">{{ isWindowOpen ? 'Close' : 'Open' }} window</button>
-        <button type="button" class="btn btn-danger disabled">Delete window</button>
+        <button type="button" class="btn btn-secondary me-2" @click="switchRoom">{{ isRoomOpen ? 'Close' : 'Open' }} room</button>
+        <button type="button" class="btn btn-danger disabled">Delete room</button>
       </div>
     </template>
   </div>
@@ -32,26 +32,26 @@ import axios from 'axios';
 import {API_HOST} from '../config';
 
 export default {
-  name: 'WindowsListItem',
-  props: ['window'],
+  name: 'RoomsListItem',
+  props: ['room'],
   data: function() {
     return {
       isExpanded: false
     }
   }, 
   computed: {
-    isWindowOpen: function() {
-      return this.window.windowStatus === 'OPEN'; 
+    isRoomOpen: function() {
+      return this.room.roomStatus === 'OPEN'; 
     }
   },
   methods: {
     toggleExpand() {
       this.isExpanded = !this.isExpanded;
     },
-    async switchWindow() {
-      let response = await axios.put(`${API_HOST}/api/windows/${this.window.id}/switch`);
-      let updatedWindow = response.data;
-      this.$emit('window-updated', updatedWindow);
+    async switchRoom() {
+      let response = await axios.put(`${API_HOST}/api/rooms/${this.room.id}/switch`);
+      let updatedRoom = response.data;
+      this.$emit('room-updated', updatedRoom);
     }
   }
 }
@@ -77,7 +77,7 @@ export default {
   }
 }
 
-.window {
+.room {
   .top-row {
     cursor: pointer;
   }
