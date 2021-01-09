@@ -5,9 +5,9 @@
     </header>
 
     <section class="main-content w-50 mx-auto">
-      <main-navigation></main-navigation>
-      <windows-list></windows-list>
-      <rooms-list></rooms-list>
+      <main-navigation @update-display="updateDisplay"></main-navigation>
+      <windows-list v-if="display ==='windows'"></windows-list>
+      <rooms-list v-if="display ==='rooms'"></rooms-list>
     </section>
   </div>
 </template>
@@ -26,7 +26,13 @@ export default {
   },
   data: function() {
     return {
-      title: 'My App Title'
+      title: 'My App Title',
+      display: "windows"
+    }
+  },
+  methods: {
+    updateDisplay(choice) {
+      this.display=choice;
     }
   }
 }

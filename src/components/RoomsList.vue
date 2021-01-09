@@ -4,9 +4,10 @@
       v-for="room in rooms"
       :room="room"
       :key="room.id"  
-      @Room-updated="updateRoom"
+      @room-deleted="deleteRoom"
     >
     </rooms-list-item>
+    <room-add-form @form-submitted="submitForm"></room-add-form>
   </div>
 </template>
 
@@ -15,10 +16,12 @@
 import axios from 'axios';
 import {API_HOST} from '../config';
 import RoomsListItem from './RoomsListItem';
+import RoomAddForm from './RoomAddForm';
 
 export default {
   components: {
-    RoomsListItem
+    RoomsListItem,
+    RoomAddForm
   },
   name: 'RoomsList',
   data: function() {
@@ -33,10 +36,15 @@ export default {
     this.rooms = rooms;
   },
   methods: {
-    updateRoom(newRoom) {
+    deleteRoom(id) {
       /* Find the place of room objectw ith the same Id in the array, and replace it */
-      let index = this.rooms.findIndex(room => room.id === newRoom.id);
-      this.rooms.splice(index, 1, newRoom);
+      let index = this.rooms.findIndex(room => room.id === id);
+      this.rooms.splice(index, 1);
+    },
+    async submitForm(room) {
+      let response = await axios.post(`${API_HOST}/api/rooms`,room);
+      let newRoom = response.data;
+      this.rooms.push(newRoom);
     }
   }
 }

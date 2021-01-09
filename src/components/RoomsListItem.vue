@@ -2,16 +2,8 @@
   <div class="room border border-secondary rounded p-2 mb-2" :class="{expanded: isExpanded}">
     <div class="top-row d-flex" @click="toggleExpand">
       <div class="room-name fw-bold pe-3">{{room.name}}</div>
-      <div class="room-name text-muted">{{room.roomName}}</div>
-
-      <div class="open-status ms-4" :class="{open: isRoomOpen, closed: !isRoomOpen}">
-        <template v-if="isRoomOpen">
-          <span class="icon">&#x2B24;</span> Open
-        </template>
-        <template v-else>
-          <span class="icon">&#x2716;</span> Closed
-        </template>
-      </div>
+      <div class="room-name text-muted pe-3">Current tempertaure : {{room.current_temperature}}</div>
+      <div class="room-name text-muted">Target temperature : {{room.target_temperature}}</div>
 
       <div class="expand-button ms-auto">
         {{ isExpanded ? '&#9660;' : '&#9658;' }}
@@ -20,8 +12,7 @@
     <template v-if="isExpanded">
       <hr/>
       <div class="details d-flex">
-        <button type="button" class="btn btn-secondary me-2" @click="switchRoom">{{ isRoomOpen ? 'Close' : 'Open' }} room</button>
-        <button type="button" class="btn btn-danger disabled">Delete room</button>
+        <button @click="deleteRoom" type="button" class="btn btn-danger">Delete room</button>
       </div>
     </template>
   </div>
@@ -39,19 +30,13 @@ export default {
       isExpanded: false
     }
   }, 
-  computed: {
-    isRoomOpen: function() {
-      return this.room.roomStatus === 'OPEN'; 
-    }
-  },
   methods: {
     toggleExpand() {
       this.isExpanded = !this.isExpanded;
     },
-    async switchRoom() {
-      let response = await axios.put(`${API_HOST}/api/rooms/${this.room.id}/switch`);
-      let updatedRoom = response.data;
-      this.$emit('room-updated', updatedRoom);
+    async deleteRoom() {
+      await axios.delete(`${API_HOST}/api/rooms/${this.room.id}`);
+      this.$emit('room-deleted', this.room.id);
     }
   }
 }

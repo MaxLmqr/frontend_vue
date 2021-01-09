@@ -7,7 +7,7 @@
       @window-updated="updateWindow"
     >
     </windows-list-item>
-    <windows-add-form></windows-add-form>
+    <windows-add-form @form-submitted="submitForm"></windows-add-form>
   </div>
 </template>
 
@@ -31,7 +31,7 @@ export default {
     }
   },
   created: async function() {
-    let response = await axios.get(`${API_HOST}/api/windows`, { 'crossdomain': 'true' });
+    let response = await axios.get(`${API_HOST}/api/windows`);
     let windows = response.data;
     this.windows = windows;
   },
@@ -44,6 +44,11 @@ export default {
       } else {
         this.windows.splice(index, 1, newWindow);
       }
+    },
+    async submitForm(window) {
+      let response = await axios.post(`${API_HOST}/api/windows`,window);
+      let newWindow = response.data;
+      this.windows.push(newWindow);
     }
   }
 }
