@@ -54,9 +54,8 @@ export default {
       this.$emit('window-updated', updatedWindow);
     },
     async deleteWindow() {
-      let response = await axios.delete(`${API_HOST}/api/windows/${this.window.id}`);
-      let updatedWindow = response.data;
-      this.$emit('window-updated', updatedWindow);      
+      await axios.delete(`${API_HOST}/api/windows/${this.window.id}`);
+      this.$emit('window-deleted', this.window.id);      
     }
   }
 }

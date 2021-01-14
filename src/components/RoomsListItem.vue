@@ -2,6 +2,7 @@
   <div class="room border border-secondary rounded p-2 mb-2" :class="{expanded: isExpanded}">
     <div class="top-row d-flex" @click="toggleExpand">
       <div class="room-name fw-bold pe-3">{{room.name}}</div>
+      <div class="room-name text-muted pe-3">Building ID : {{room.buildingId}}</div>
       <div class="room-name text-muted pe-3">Current tempertaure : {{room.current_temperature}}</div>
       <div class="room-name text-muted">Target temperature : {{room.target_temperature}}</div>
 

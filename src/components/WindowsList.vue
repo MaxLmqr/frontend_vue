@@ -5,6 +5,7 @@
       :window="window"
       :key="window.id"  
       @window-updated="updateWindow"
+      @window-deleted="deleteWindow"
     >
     </windows-list-item>
     <windows-add-form v-bind:rooms="rooms" @form-submitted="submitForm"></windows-add-form>
@@ -50,16 +51,17 @@ export default {
     updateWindow(newWindow) {
       /* Find the place of window objectw ith the same Id in the array, and replace it */
       let index = this.windows.findIndex(window => window.id === newWindow.id);
-      if (newWindow === '') {
-        this.windows.splice(index, 1);
-      } else {
-        this.windows.splice(index, 1, newWindow);
-      }
+      this.windows.splice(index, 1, newWindow);
+
     },
     async submitForm(window) {
       let response = await axios.post(`${API_HOST}/api/windows`,window);
       let newWindow = response.data;
       this.windows.push(newWindow);
+    },
+    deleteWindow(id) {
+      let index = this.windows.findIndex(window => window.id === id);
+      this.windows.splice(index, 1);
     }
   }
 }
