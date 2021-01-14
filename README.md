@@ -1,5 +1,13 @@
 # solution
 
+To Install this app.
+Go to your favorite directory, then run the following command :
+```
+git clone https://github.com/MaxLmqr/frontend_vue
+```
+Then you can go in the folder created, and follow the next step.
+The API is hosted online so you don't need to run it locally.
+
 ## Project setup
 ```
 npm install
@@ -9,16 +17,12 @@ npm install
 ```
 npm run serve
 ```
+You can then go to localhost:8080
+The app should be dsiplaying.
+
 
 ### Compiles and minifies for production
 ```
 npm run build
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
