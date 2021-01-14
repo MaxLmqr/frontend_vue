@@ -25,4 +25,8 @@ The app should be dsiplaying.
 ```
 npm run build
 ```
-
+### What can you do ?
+* switch windows status.
+* delete windows or rooms.
+* create new windows and rooms.
+* switch between displaying a list of windows and rooms
