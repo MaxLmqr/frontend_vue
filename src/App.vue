@@ -5,7 +5,7 @@
     </header>
 
     <section class="main-content w-50 mx-auto">
-      <main-navigation @update-display="updateDisplay"></main-navigation>
+      <main-navigation v-bind:display="display" @update-display="updateDisplay"></main-navigation>
       <windows-list v-if="display ==='windows'"></windows-list>
       <rooms-list v-if="display ==='rooms'"></rooms-list>
     </section>
@@ -26,7 +26,7 @@ export default {
   },
   data: function() {
     return {
-      title: 'My App Title',
+      title: 'Manage Your Buildings',
       display: "windows"
     }
   },

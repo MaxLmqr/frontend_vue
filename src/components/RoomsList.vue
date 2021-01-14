@@ -7,13 +7,14 @@
       @room-deleted="deleteRoom"
     >
     </rooms-list-item>
-    <room-add-form @form-submitted="submitForm"></room-add-form>
+    <room-add-form v-bind:buildings="buildings" @form-submitted="submitForm"></room-add-form>
   </div>
 </template>
 
 
 <script>
 import axios from 'axios';
+import Vue from 'vue';
 import {API_HOST} from '../config';
 import RoomsListItem from './RoomsListItem';
 import RoomAddForm from './RoomAddForm';
@@ -27,13 +28,22 @@ export default {
   data: function() {
     return {
       /* Initialize rooms with an empty array, while waiting for actual data to be retrieved from the API */
-      rooms: []
+      rooms: [],
+      buildings: []
     }
   },
   created: async function() {
-    let response = await axios.get(`${API_HOST}/api/rooms`);
+    let response = await axios.get(`${API_HOST}/api/rooms`).catch(() => {
+      Vue.toasted.show("Could not load rooms", {duration:5000,position:'bottom-center'});
+    });
     let rooms = response.data;
     this.rooms = rooms;
+
+    let response2 = await axios.get(`${API_HOST}/api/buildings`).catch(() => {
+      Vue.toasted.show("Could not load buildings", {duration:5000,position:'bottom-center'});
+    });
+    let buildings = response2.data;
+    this.buildings = buildings;
   },
   methods: {
     deleteRoom(id) {
